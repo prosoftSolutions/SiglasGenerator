@@ -1,0 +1,52 @@
+{% use '../CommonAdmin/ListTemplate/scopes.php.twig' %}
+{% use '../CommonAdmin/stylesheets.php.twig' %}
+{% use '../CommonAdmin/javascripts.php.twig' %}
+{% use '../CommonAdmin/title.php.twig' %}
+
+{{ echo_extends( builder.getBaseAdminTemplate ) }}
+
+{{ echo_block("stylesheets") }}
+    {{- block('complementary_stylesheets') -}}
+{{ echo_endblock() }}
+
+{{ echo_block("javascripts") }}
+    {{- block('complementary_javascripts') -}}
+{{ echo_endblock() }}
+
+{{- block('site_title') -}}
+
+{{ echo_block("body") }}
+
+    {{ echo_block("alerts") }}
+        {{ "{% for mensaje in app.session.flashbag.get('info') %}" }}
+                {{ '<div class="alert alert-info">' }}
+                    {{ '<strong>' }}
+                        {{ '<i class="icon-warning-sign"></i>' }}
+                            {{ " {{ mensaje }} " }}
+                    {{ '</strong>' }}
+                    {{ '<br/>' }}
+                {{ '</div>' }}
+        {{ "{% endfor %}" }}
+    {{ echo_endblock() }}
+    {{ block('title') }}
+
+            {{- block('list_scopes') -}}
+
+            {{ echo_include(builder.namespacePrefixForTemplate ~ bundle_name ~ ':' ~ builder.BaseGeneratorName ~ '/List:results.html.twig') }}
+
+        {{ echo_block("filters") }}
+            {% if builder.filterColumns|length > 0 %}
+<div id="filterContainer">
+                {{ echo_include(builder.namespacePrefixForTemplate ~ bundle_name ~ ':' ~ builder.BaseGeneratorName ~ '/List:filters.html.twig') }}
+</div>  
+            {% endif %}
+        {{ echo_endblock() }}
+        {{ echo_block("table_javascripts") }}
+
+            <script type="text/javascript">
+                var header = $("#pageHeader");
+                $("#pageHeader").parent().remove();
+                $("#pageContent").prepend(header)
+            </script>
+        {{ echo_endblock() }}
+{{ echo_endblock() }}

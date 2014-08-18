@@ -1,0 +1,74 @@
+{% block form_widget_compound %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+        {% if form.parent is empty %}
+            {{ form_errors(form) }}
+        {% endif %}
+        {{ block('form_rows') }}
+        {{ form_rest(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_widget_compound %}
+
+{% block form_rows %}
+{% spaceless %}
+    {% if options is defined %}
+        {% for child in form %}
+            {{ form_row(child, options) }}
+        {% endfor %}
+    {% else %}
+        {% for child in form %}
+            {{ form_row(child) }}
+        {% endfor %}
+    {% endif %}
+{% endspaceless %}
+{% endblock form_rows %}
+
+{% block form_row %}
+{% spaceless %}
+    <div class="control-group {{ name }}{% if errors|length > 0 %} error{% endif %}">
+        {{ form_label(form) }}
+        <div class="controls">
+        {{ form_widget(form) }}
+        {% if not compound %}
+            {{ form_errors(form) }}
+        {% endif %}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block form_label %}
+{% spaceless %}
+{% if label is not sameas(false) %}
+    {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' control-label')|trim}) %}
+    {% if not compound %}
+        {% set label_attr = label_attr|merge({'for': id}) %}
+    {% endif %}
+    {% if required %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+    {% endif %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+{% endif %}
+{% endspaceless %}
+{% endblock form_label %}
+
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+    <span class="help-block">
+        <ul class="form-errors">
+        {% for error in errors %}
+            <li>{{ error.messagePluralization is null
+                ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+            }}</li>
+        {% endfor %}
+        </ul>
+    </span>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}

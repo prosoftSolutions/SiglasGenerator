@@ -1,0 +1,16 @@
+{% block title %}
+        <header id="pageHeader">
+            <h1 class="header smaller lighter blue">
+                {{ "{% block openFilters %}" }}
+                    <i id="openFilters" class="icon-search nav-search-icon" style="cursor: pointer;"></i>
+                {{ "{% endblock openFilters %}" }}
+                {{ echo_trans(title,{}, i18n_catalog|default("Admin") ) }}
+            </h1>
+        </header>
+{% endblock %}
+
+{% block site_title %}
+    {{ echo_block("title") }}
+        {{ echo_twig('parent()') }}
+    {{ echo_endblock() }}
+{% endblock %}
