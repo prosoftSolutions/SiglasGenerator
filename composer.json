@@ -1,5 +1,5 @@
 {
-    "name": "jagltoro/siglas-generator",
+    "name": "prosoftSolutions/siglas-generator",
     "minimum-stability": "RC",
     "version": "1.0.0",
     "description": "Admingenerator for Symfony2 based on YAML configuration and Twig templating / Based on Cedric Lombardot",
