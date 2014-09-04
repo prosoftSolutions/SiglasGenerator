@@ -408,10 +408,10 @@ class EchoExtension extends \Twig_Extension
     public function getEchoIfGranted($credentials, $modelName = null)
     {
         if (null === $modelName) {
-            return $this->getEchoIf('is_expr_granted(\''.$credentials.'\')');
+            return $this->getEchoIf('is_granted(\''.$credentials.'\')');
         }
 
-        return $this->getEchoIf('is_expr_granted(\''.$credentials.'\', '.$modelName.')');
+        return $this->getEchoIf('is_granted(\''.$credentials.'\', '.$modelName.')');
     }
 
     public function getEchoIf($condition)
